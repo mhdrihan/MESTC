@@ -1,0 +1,98 @@
+﻿@{
+    ViewData["Title"] = "Traceability";
+}
+@model MES.Models.TraceabillityModel
+
+<div class="card shadow mb-4">
+    <div class="card-header">
+        <div class="row justify-content-center">
+            <div class="col-sm-10">
+                <h6 class="m-0 font-weight-bold text-primary text-lg card-title btn-sm">Traceabillity</h6>
+            </div>
+            <div class="col-sm-2">
+                <a class="btn btn-success btn-sm" href="../Admin/Savetraceabillity">
+                    <i></i>Add Data
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered" id="traceabilityTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>Serial Number</th>
+                        <th>Batch ID</th>
+                        <th>Refference Name</th>
+                        <th>Work Order</th>
+                        <th>Station ID</th>
+                        <th>Station Suffix</th>
+                        <th>Station Name</th>
+                        <th>User ID</th>
+                        <th>Cavity Number</th>
+                        <th>Time In</th>
+                        <th>Time Out</th>
+                        <th>Status Result</th>
+                        <th>Status Running</th>
+                        <th>Transact By</th>
+                        <th>Full Refference</th>
+                    </tr>
+                </thead>
+                
+
+            </table>
+            @section Scripts {
+                <script>
+                    $(document).ready(function () {
+                        $('#traceabilityTable').DataTable({
+                            "processing": true,
+                            "serverSide": true,
+
+                            "ajax": {
+                                "url": "@Url.Action("LoadTraceabilityData", "Admin")",
+                                "type": "POST",
+                                "data": function(d) {
+							d.start = d.start; // set default value for start
+							d.length = d.length || 10; // set default value for length
+							d.order = d.order; // set default value for length
+						},
+                                "error": function(jqXHR, textStatus, errorThrown) {
+
+							console.log(jqXHR.responseText, textStatus);
+							console.log('Gagal');
+						},
+
+                                "success": function (data) {
+                                        console.log(data); // Tampilkan data pada konsol
+                                    }
+                            },
+                            "columns": [
+                                { "data": "Serial_Number" },
+                                { "data": "Batch_ID" },
+                                { "data": "Refference_Name" },
+                                { "data": "Work_Order" },
+                                { "data": "Station_ID" },
+                                { "data": "Station_Suffix" },
+                                { "data": "Station_Name" },
+                                { "data": "User_ID" },
+                                { "data": "Cavity_Number" },
+                                { "data": "Time_In" },
+                                { "data": "Time_Out" },
+                                { "data": "Status_Result" },
+                                { "data": "Status_Running" },
+                                { "data": "Transact_By" },
+                                { "data": "FullRefference" }
+                            ],
+                            "drawCallback": function(response) {
+						    console.log(response.json);
+					        }
+                        });
+                    });
+
+                </script>
+            }
+
+        </div>
+    </div>
+</div>
+
